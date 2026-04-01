@@ -1,0 +1,12 @@
+Starlink SigMF Capture
+Start time: 2026-04-01 16:09:21.680774
+Sample rate: 1000000.0 Hz
+Gain: 40.0 dB
+LNB LO: 9750200000.0 Hz
+
+--- Round 1 ---
+2026-04-01 16:09:27.506527 | Round 1 | RF 11.575 GHz | 5000000 samples | -42.07 dBm | 5.60 s | r001_f11.575GHz_20260401T230921.sigmf-meta
+2026-04-01 16:09:33.269851 | Round 1 | RF 12.325 GHz | 5000000 samples | -41.98 dBm | 5.56 s | r001_f12.325GHz_20260401T230927.sigmf-meta
+--- Round 2 ---
+2026-04-01 16:09:39.085592 | Round 2 | RF 11.575 GHz | 5000000 samples | -42.05 dBm | 5.61 s | r002_f11.575GHz_20260401T230933.sigmf-meta
+2026-04-01 16:09:44.876594 | Round 2 | RF 12.325 GHz | 5000000 samples | -41.94 dBm | 5.58 s | r002_f12.325GHz_20260401T230939.sigmf-meta

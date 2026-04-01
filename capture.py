@@ -433,13 +433,13 @@ def main():
     SAMPLE_RATE = 1.0e6           # 0.5 MS/s
     GAIN = 40                     # dB
     LNB_LO = 9.75e9 + 0.2e6               # Hz (typical Ku-band LNB)
-    OUTPUT_ROOT = "/home/mowerj/workarea_starlink/uhd/AFRL_tests/automatedHopping"
+    OUTPUT_ROOT = "/home/mowerj/AFRL_UW_LiveDemo/testCaptures"
 
     START_FREQ = 10.7e9           # 10.7 GHz
     END_FREQ = 12.7e9             # 12.7 GHz
     FREQ_STEP = 125e6             # 125 MHz
-    CAPTURE_DURATION = 30        # seconds per freq
-    TOTAL_DURATION = 30*2*2 #------------
+    CAPTURE_DURATION = 5        # seconds per freq
+    TOTAL_DURATION = 5*2*2 #------------
     SPECIFIC_FREQS =[11.575e9, 12.325e9]
     # SPECIFIC_FREQS = [11.575e9]
 
