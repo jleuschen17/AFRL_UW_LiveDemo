@@ -1,0 +1,17 @@
+Doppler Predictor - Simulation Settings
+============================================================
+
+TLE File: /home/jesse/doppler-predictor/starlink.txt
+Start Time (UTC): 2026-02-06 22:10:10
+Duration (min): 10.0
+Time Step (sec): 1.0
+Carrier Frequency (GHz): 10.5
+Elevation Mask (deg): 40.0
+Max Satellites: 8967
+Ground Station Latitude (deg): 47.655
+Ground Station Longitude (deg): -122.3035
+Ground Station Altitude (m): 17deg 39' 06.8"
+
+Results:
+Total Data Points: 13409
+Visible Satellites: 131

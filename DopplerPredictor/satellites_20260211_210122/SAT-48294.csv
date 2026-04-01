@@ -1,0 +1,2 @@
+timestamp,satellite,azimuth_deg,elevation_deg,distance_km,relative_velocity_kms,doppler_shift_hz,tx_freq_ghz,rx_freq_hz,ue_lat,ue_lon,ue_alt_m,time_minutes
+2026-02-06T22:04:28+00:00,SAT-48294,293.2675567714382,40.02413316532429,816.1521104765256,-5.111957551304509,179042.3770056862,10.5,10500179042.377007,47.655,-122.3035,60.0,9.983333333333333
