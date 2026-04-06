@@ -126,12 +126,22 @@ def _build_waterfall(txt_files, capture_dir, freq_ghz, sample_rate, k, nfft, nov
         step = nfft - noverlap
         t = (np.arange(num_rows) * step + nfft / 2) / sample_rate
 
-        recon_freqs = data[:, 0:k]
+        recon_freqs = np.real(data[:, 0:k])
         recon_vals = data[:, k:]
+
+        # Auto-detect Hz vs m/s: if values exceed the velocity axis,
+        # they are raw frequencies in Hz — convert to relative velocity
+        max_freq = np.max(np.abs(recon_freqs))
+        if max_freq > v_max * 2:
+            cf_hz = freq_ghz * 1e9
+            recon_freqs = C * recon_freqs / cf_hz
+            print(f"  [auto] Converted Hz→m/s (max {max_freq:.0f} Hz → "
+                  f"{np.max(np.abs(recon_freqs)):.0f} m/s)")
+
         sparse = np.zeros((len(v_axis), num_rows), dtype=complex)
 
         for i in range(num_rows):
-            idx = np.searchsorted(v_axis, np.real(recon_freqs[i, :]))
+            idx = np.searchsorted(v_axis, recon_freqs[i, :])
             idx = np.clip(idx, 0, len(v_axis) - 1)
             sparse[idx, i] = recon_vals[i, :]
 
@@ -159,16 +169,19 @@ def _build_waterfall(txt_files, capture_dir, freq_ghz, sample_rate, k, nfft, nov
 # =====================================================================
 
 def load_real_waterfall(capture_dir, tag, n_vel_out=300):
-    """Load waterfall, convert complex→dB, downsample to 1 Hz.
+    """Load waterfall, downsample to 1 Hz, convert to dB.
 
-    Uses MAX aggregation in linear power so sparse peaks survive
-    the 1 Hz downsampling (mean would wash them out when k<<n_vel).
+    Aggregates in LINEAR power domain (mean), then converts to dB.
+    This is critical for sparse data (k=10 out of 500 bins):
+    - Mean of dB values is wrong (zeros→-300 dB dominate the average)
+    - Max of linear elevates all noise bins equally (no contrast)
+    - Mean of linear correctly preserves signal-to-noise ratio
     """
     raw = np.load(os.path.join(capture_dir, f"{tag}.npy"))
     time_axis = np.load(os.path.join(capture_dir, f"datetime_updated_{tag}.npy"))
     vel_axis = np.load(os.path.join(capture_dir, f"rel_vel_{tag}.npy")) / 1000.0
 
-    # Work in linear power for aggregation
+    # Work in linear power for aggregation (NOT dB)
     is_complex = np.iscomplexobj(raw)
     if is_complex:
         power_lin = np.abs(raw) ** 2
@@ -178,14 +191,14 @@ def load_real_waterfall(capture_dir, tag, n_vel_out=300):
     t_utc = pd.to_datetime(np.asarray(time_axis), utc=True, errors="raise")
     assert len(t_utc) == power_lin.shape[0]
 
-    # 1 Hz downsample using MAX to preserve sparse peaks
+    # 1 Hz downsample: MEAN in linear domain preserves SNR correctly
     df = pd.DataFrame(power_lin)
     df["t_sec"] = t_utc.floor("s")
-    agg = df.groupby("t_sec").max(numeric_only=True)
+    agg = df.groupby("t_sec").mean(numeric_only=True)
     wf = agg.to_numpy(dtype=np.float64)
     t1hz = agg.index
 
-    # Convert to dB after aggregation
+    # Convert to dB AFTER aggregation
     if is_complex:
         wf = 10.0 * np.log10(wf + 1e-30)
     wf = wf.astype(np.float32)
