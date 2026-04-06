@@ -438,8 +438,8 @@ def main():
     START_FREQ = 10.7e9           # 10.7 GHz
     END_FREQ = 12.7e9             # 12.7 GHz
     FREQ_STEP = 125e6             # 125 MHz
-    CAPTURE_DURATION = 60        # seconds per freq
-    TOTAL_DURATION = 60*2 #------------
+    CAPTURE_DURATION = 180        # seconds per freq
+    TOTAL_DURATION = 180*2 #------------
     SPECIFIC_FREQS =[11.575e9, 12.325e9]
     # SPECIFIC_FREQS = [11.575e9]
 

@@ -536,6 +536,17 @@ def main():
     print("\n--- Step 2: Load waterfall ---")
     waterfall, t1hz, vel_kms = load_real_waterfall(capture_dir, tag)
 
+    # Print DopplerPredictor GUI settings for use with corelator.py
+    start_utc = t1hz[0].to_pydatetime()
+    duration_sec = (t1hz[-1] - t1hz[0]).total_seconds() + 1
+    print(f"\n--- DopplerPredictor GUI settings (for corelator.py) ---")
+    print(f"  Start time (UTC): {start_utc.strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"  Duration:         {duration_sec:.0f} s  ({duration_sec/60:.1f} min)")
+    print(f"  Frequency:        {args.freq:.3f} GHz")
+    print(f"  Lat/Lon/Alt:      {args.lat}, {args.lon}, {args.alt} m")
+    print(f"  Elevation mask:   {args.elev_mask} deg")
+    print(f"  Waterfall rows:   {waterfall.shape[0]}  (corelator.py starts/ends max)")
+
     # --- 3. Get TLE (download fresh or use provided file) ---
     print("\n--- Step 3: TLE ---")
     if args.tle:

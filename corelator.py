@@ -11,9 +11,9 @@ from matplotlib import pyplot as plt
 # vel_axis = np.load("./real data/rel_vel_waterfall_CF_r3_11.575GHz.npy") / 1000.0
 
 
-real_spec = np.load("/home/mowerj/AFRL_UW_LiveDemo/testCaptures/starlink_sigmf_20260402T201229/r0_waterfall_CF_11.575GHz.npy")
-time_axis = np.load("/home/mowerj/AFRL_UW_LiveDemo/testCaptures/starlink_sigmf_20260402T201229/datetime_updated_r0_waterfall_CF_11.575GHz.npy")
-vel_axis = np.load("/home/mowerj/AFRL_UW_LiveDemo/testCaptures/starlink_sigmf_20260402T201229/rel_vel_r0_waterfall_CF_11.575GHz.npy") / 1000.0
+real_spec = np.load("/home/mowerj/AFRL_UW_LiveDemo/testCaptures/corr_test/r0_waterfall_CF_12.325GHz.npy")
+time_axis = np.load("/home/mowerj/AFRL_UW_LiveDemo/testCaptures/corr_test/datetime_updated_r0_waterfall_CF_12.325GHz.npy")
+vel_axis = np.load("/home/mowerj/AFRL_UW_LiveDemo/testCaptures/corr_test/rel_vel_r0_waterfall_CF_12.325GHz.npy") / 1000.0
 
 # Speed of light (m/s)
 C = 299792458.0
@@ -116,7 +116,7 @@ def build_sim_waterfall_on_real_axes(
     df = pd.read_csv(csv_path)
 
     # Convert simulated timestamps to UTC and round to second
-    t_sim = pd.to_datetime(df[ts_col], utc=True, errors="raise").dt.floor("S")
+    t_sim = pd.to_datetime(df[ts_col], utc=True, errors="raise").dt.floor("s")
     df["t_sec"] = t_sim
 
     if getattr(t1hz_utc, "tz", None) is None:
@@ -238,7 +238,7 @@ def downsample_real_to_1hz_and_vel300(
 
     # Group by second
     df = pd.DataFrame(real_spec)
-    df["t_sec"] = t.floor("S")
+    df["t_sec"] = t.floor("s")
     group = df.groupby("t_sec")
 
     if method == "mean":
@@ -325,13 +325,13 @@ else:
 scores = []
 files = []
 
-folders = os.listdir("./sim data/")
+folders = os.listdir("./DopplerPredictor")
 
 for ff in folders:
-    if ff.find("20260211_205621") == -1:
+    if ff.find("satellites_20260406_123046") == -1:
         continue
 
-    fnames = os.listdir("./sim data/" + ff)
+    fnames = os.listdir("./DopplerPredictor/" + ff)
 
     for f in fnames:
         if f.find("csv") == -1 or f.find("waterfall") != -1:
@@ -339,7 +339,7 @@ for ff in folders:
 
         try:
             sim_1hz = build_sim_waterfall_on_real_axes(
-                csv_path="./sim data/" + ff + "/" + f,
+                csv_path="./DopplerPredictor/" + ff + "/" + f,
                 t1hz_utc=t1hz,
                 vel_centers_kms=vel_centers_kms,
                 sigma_kms=0.05,
@@ -356,8 +356,8 @@ for ff in folders:
         real_r = ridge_from_heatmap(real_1hz, mode="max")
         sim_r = ridge_from_heatmap(sim_1hz, mode="min")
 
-        starts = [125, 190]
-        ends = [160, 215]
+        starts = [0]
+        ends = [300]
         start_ = starts[0]
         end_ = ends[0]
 
@@ -372,7 +372,7 @@ for ff in folders:
         files.append(f)
         scores.append(best_ncc)
 
-        if f == "SAT-49745.csv":
+        if f == "SAT-57228.csv":
             create_waterfallplot(sim_1hz, vel_centers_kms, t1hz, "SIM")
 
             plt.figure()

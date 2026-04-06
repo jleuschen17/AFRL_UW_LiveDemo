@@ -43,7 +43,7 @@ import sigmf
 
 
 # ================== CONFIG ==================
-ROOT_DIR = "/home/mowerj/AFRL_UW_LiveDemo/testCaptures/starlink_sigmf_20260406T211648"
+ROOT_DIR = "/home/mowerj/AFRL_UW_LiveDemo/testCaptures/starlink_sigmf_20260406T184410"
 
 NFFT = 1024
 NOTCH_WIDTH = 40
