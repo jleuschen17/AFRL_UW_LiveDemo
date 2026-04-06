@@ -2591,10 +2591,10 @@ def terminal_data_generation():
     num_sats = int(input("Max satellites to process [default: 100]: ").strip() or "100")
     print(f"✓ Elevation mask: {elevation_mask}°, Max satellites: {num_sats}")
     
-    # Use default carrier frequency
-    carrier_freq_ghz = 10.5
+    print("\n[6/8] Carrier Frequency")
+    carrier_freq_ghz = float(input("Carrier frequency (GHz) [default: 10.5]: ").strip() or "10.5")
     carrier_freq_hz = carrier_freq_ghz * 1e9
-    print(f"✓ Using carrier frequency: {carrier_freq_ghz} GHz (Starlink default)")
+    print(f"✓ Using carrier frequency: {carrier_freq_ghz} GHz")
     
     # Output directory
     print("\n[6/8] Output Settings")

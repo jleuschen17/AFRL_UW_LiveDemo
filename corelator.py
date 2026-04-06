@@ -6,9 +6,14 @@ from matplotlib import pyplot as plt
 # ------------------------------------------------------------
 # Load real waterfall data
 # ------------------------------------------------------------
-real_spec = np.load("./real data/waterfall_CF_r3_11.575GHz.npy")
-time_axis = np.load("./real data/datetime_waterfall_CF_r3_11.575GHz.npy")
-vel_axis = np.load("./real data/rel_vel_waterfall_CF_r3_11.575GHz.npy") / 1000.0
+# real_spec = np.load("./real data/waterfall_CF_r3_11.575GHz.npy")
+# time_axis = np.load("./real data/datetime_waterfall_CF_r3_11.575GHz.npy")
+# vel_axis = np.load("./real data/rel_vel_waterfall_CF_r3_11.575GHz.npy") / 1000.0
+
+
+real_spec = np.load("/home/mowerj/AFRL_UW_LiveDemo/testCaptures/starlink_sigmf_20260402T201229/r0_waterfall_CF_11.575GHz.npy")
+time_axis = np.load("/home/mowerj/AFRL_UW_LiveDemo/testCaptures/starlink_sigmf_20260402T201229/datetime_updated_r0_waterfall_CF_11.575GHz.npy")
+vel_axis = np.load("/home/mowerj/AFRL_UW_LiveDemo/testCaptures/starlink_sigmf_20260402T201229/rel_vel_r0_waterfall_CF_11.575GHz.npy") / 1000.0
 
 # Speed of light (m/s)
 C = 299792458.0
